@@ -19,7 +19,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
         🌳
         🌲🌲🌲
         🌳🌳🌳🌳🌳
-        🌲🌲🌲🌲🌲🌲🌲
+        🌲🌲🌲🌲🌲🌲
         🌳🌳🌳🌳🌳🌳🌳🌳🌳
         🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
         🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
