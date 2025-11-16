@@ -7,7 +7,7 @@ ENV GOOS=linux
 WORKDIR /app
 
 # Copy the Go source code into the container
-COPY main.go go.mod .
+COPY main.go main_test.go go.mod .
 
 # Run tests
 RUN go test -v .
