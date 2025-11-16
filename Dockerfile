@@ -9,6 +9,9 @@ WORKDIR /app
 # Copy the Go source code into the container
 COPY main.go go.mod .
 
+# Run tests
+RUN go test -v .
+
 # Build the Go application
 RUN go build -o hellotoby .
 
