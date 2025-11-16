@@ -12,8 +12,22 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
     userAgent := r.UserAgent()
     log.Printf("Received request from %s with User-Agent: %s", ip, userAgent)
 
-    // Respond with "Hello Toby"
-    fmt.Fprintln(w, "Hello Toby")
+    // Respond with a fancy tree
+    tree := `
+        🌳
+        🌲
+        🌳
+        🌲🌲🌲
+        🌳🌳🌳🌳🌳
+        🌲🌲🌲🌲🌲🌲🌲
+        🌳🌳🌳🌳🌳🌳🌳🌳🌳
+        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+        🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
+        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+        🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
+        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+    `
+    fmt.Fprintln(w, tree)
 }
 
 func main() {
