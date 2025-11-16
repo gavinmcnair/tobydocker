@@ -1,36 +1,36 @@
 version: 2.1
 
-executors:
-  docker-executor:
-    docker:
-      - image: golang:1.20  # Use the official Go image
-
 jobs:
   build:
-    executor: docker-executor
+    working_directory: ~/app
+    docker:
+      - image: cimg/go:1.20  # Use the CircleCI Go image
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout  # Check out the source code
 
+      - run:
+          name: Build Go application
+          command: |
+            go build -o myapp ./...  # Build your Go application
+
       - setup_remote_docker:
-          version: 20.10.7  # Specify the Docker version you want to use
-          docker_layer_caching: true  # Optional: Enable layer caching for faster builds
+          docker_layer_caching: true  # Set up Docker for building images
 
       - run:
-          name: Build Docker Image
+          name: Build Docker image
           command: |
-            docker build -t hellotoby .
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -t $DOCKERHUB_USERNAME/my-go-app:$TAG .  # Build the Docker image
 
       - run:
-          name: Run Tests (Optional)
+          name: Push application Docker image
           command: |
-            go test ./...
-
-      - run:
-          name: Push Docker Image
-          command: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker tag hellotoby $DOCKER_USERNAME/hellotoby:latest
-            docker push $DOCKER_USERNAME/hellotoby:latest
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker push $DOCKERHUB_USERNAME/my-go-app:$TAG  # Push the Docker image
 
 workflows:
   version: 2
