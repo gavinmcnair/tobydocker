@@ -11,11 +11,6 @@ jobs:
     steps:
       - checkout  # Check out the source code
 
-      - run:
-          name: Build Go application
-          command: |
-            go build -o myapp ./...  # Build your Go application
-
       - setup_remote_docker:
           docker_layer_caching: true  # Set up Docker for building images
 
@@ -23,14 +18,14 @@ jobs:
           name: Build Docker image
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -t $DOCKERHUB_USERNAME/my-go-app:$TAG .  # Build the Docker image
+            docker build -t $DOCKERHUB_USERNAME/hello-toby:$TAG .  # Build the Docker image
 
       - run:
           name: Push application Docker image
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker push $DOCKERHUB_USERNAME/my-go-app:$TAG  # Push the Docker image
+            docker push $DOCKERHUB_USERNAME/hello-toby:$TAG  # Push the Docker image
 
 workflows:
   version: 2
