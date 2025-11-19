@@ -7,7 +7,7 @@ ENV GOOS=linux
 WORKDIR /app
 
 # Copy the Go source code into the container
-COPY main.go main_test.go go.mod .
+COPY main.go main_test.go go.mod index.html snowfall.js . 
 
 # Run tests
 RUN go test -v .
@@ -20,6 +20,10 @@ FROM scratch
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /app/hellotoby /hellotoby
+
+# Copy the HTML and JS files to the scratch image
+COPY --from=builder /app/index.html /index.html
+COPY --from=builder /app/snowfall.js /snowfall.js
 
 # Expose the port the app runs on
 EXPOSE 8080
