@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Tree with Snow</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #87CEEB; /* Light blue background */
+            margin: 0; /* Remove default margin */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        svg {
+            position: absolute; /* Position SVG absolutely to cover the whole window */
+            top: 0;
+            left: 50%; /* Center the SVG horizontally */
+            transform: translateX(-50%); /* Adjust to center it */
+            width: 400px; /* Fixed width for the tree */
+            height: 600px; /* Fixed height for the tree */
+        }
+    </style>
+    <script src="/snowfall.js"></script>
+</head>
+<body>
+    <svg id="tree" xmlns="http://www.w3.org/2000/svg" width="400" height="600">
+        <!-- Tree Layers -->
+        <polygon points="200,0 50,400 350,400" fill="green" /> <!-- Top Layer -->
+        <polygon points="200,100 100,300 300,300" fill="green" /> <!-- Middle Layer -->
+        <polygon points="200,200 150,350 250,350" fill="green" /> <!-- Bottom Layer -->
+        <!-- Trunk -->
+        <rect x="180" y="400" width="40" height="60" fill="saddlebrown" /> 
+    </svg>
+    <script src="/snowfall.js"></script>
+</body>
+</html>

@@ -7,8 +7,7 @@ import (
     "testing"
 )
 
-func TestHelloHandler(t *testing.T) {
-    // Create a new request to pass to our handler
+func TestHtmlHandler(t *testing.T) {
     req, err := http.NewRequest("GET", "/", nil)
     if err != nil {
         t.Fatal(err)
@@ -16,34 +15,46 @@ func TestHelloHandler(t *testing.T) {
 
     // Create a ResponseRecorder to record the response
     rr := httptest.NewRecorder()
+    handler := http.HandlerFunc(htmlHandler)
 
     // Call the handler with the ResponseRecorder and request
-    handler := http.HandlerFunc(helloHandler)
     handler.ServeHTTP(rr, req)
 
-    // Check the status code is what we expect
+    // Check the status code
     if status := rr.Code; status != http.StatusOK {
-        t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+        t.Errorf("htmlHandler returned wrong status code: got %v want %v",
+            status, http.StatusOK)
     }
 
-    // Check the response body is what we expect
-    expected := `
-        🌳
-        🌲
-        🌳
-        🌲🌲🌲
-        🌳🌳🌳🌳🌳
-        🌲🌲🌲🌲🌲🌲🌲
-        🌳🌳🌳🌳🌳🌳🌳🌳🌳
-        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-        🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
-        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-        🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
-        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-    `
+    // Check the Content-Type header (allow for charset)
+    if contentType := rr.Header().Get("Content-Type"); !strings.HasPrefix(contentType, "text/html") {
+        t.Errorf("htmlHandler returned wrong content type: got %v want prefix %v",
+            contentType, "text/html")
+    }
+}
 
-    // Normalize the expected output by trimming spaces
-    if strings.TrimSpace(rr.Body.String()) != strings.TrimSpace(expected) {
-        t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
+func TestJsHandler(t *testing.T) {
+    req, err := http.NewRequest("GET", "/snowfall.js", nil)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    // Create a ResponseRecorder to record the response
+    rr := httptest.NewRecorder()
+    handler := http.HandlerFunc(jsHandler)
+
+    // Call the handler with the ResponseRecorder and request
+    handler.ServeHTTP(rr, req)
+
+    // Check the status code
+    if status := rr.Code; status != http.StatusOK {
+        t.Errorf("jsHandler returned wrong status code: got %v want %v",
+            status, http.StatusOK)
+    }
+
+    // Check the Content-Type header (allow for charset)
+    if contentType := rr.Header().Get("Content-Type"); !strings.HasPrefix(contentType, "application/javascript") {
+        t.Errorf("jsHandler returned wrong content type: got %v want prefix %v",
+            contentType, "application/javascript")
     }
 }
